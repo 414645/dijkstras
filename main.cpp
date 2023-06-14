@@ -195,19 +195,54 @@ int main() {
     }
     if (strcmp(input, "Remove Edge") == 0 || strcmp(input, "RE") == 0) {
       cout << "R E" << endl;
+      char a[80];
+      char b[80];
+      for (int z = 0; z < 80; z++) {
+	a[z] = ' ';
+	b[z] = ' ';
+      }
       //fnd it
       //same as adding here
-      int a = 0;
       cout << "what is the id of the first node it connects to?" << endl;
-      cin >> a;
-      int b = 0;
+      cin.getline(a, 80);
       cout << "what is the id of the second node it connects to?" << endl;
-      cin >> b;
+      cin.getline(b, 80);
       //find it
+
+      //check that both nodes exist
+      //now remove it
+      //reverse of adding edges
+
+      int first = -1;
+      int second =  -1;
+      for (int z = 0; z < 20; z++) {
+	//cout << "a:" << a << endl;;
+	//cout << "n:" << names[z] << endl;
+	//strcmp is not working propery it says fo != fo
+	//if (strcmp(a, names[z]) == 1) {
+        if (a[0] == names[z][0]) {
+	  cout << z << endl;
+	  first = z;
+	}
+      }
+      for (int z = 0; z < 20; z++) {
+	//if (strcmp(b, names[z]) == 1) {
+	if (b[0] == names[z][0]) {
+	  second = z;
+	}
+      }
       
       //check that both nodes exist
+      if(first != -1 && second != -1) {
+	//add edge
+	adj[first][second] = -1;
+        adj[second][first] = -1;
+      }
+      else {
+	cout << "please check your spelling" << endl;
+      }
+
       
-      //now remove it
     }
     if (strcmp(input, "Find Shortest Path") == 0) {
       int thing1;
