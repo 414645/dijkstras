@@ -12,6 +12,11 @@ int main() {
       adj[a][b] = -1;
     }
   }
+  for(int a = 0; a < 20; a++) {
+    names[a][0] = ' ';
+  }
+
+  
   
   bool quit = false;
   //loop
@@ -37,6 +42,16 @@ int main() {
     if (strcmp(input, "PRINT") == 0) {
       cout << "Print" << endl;
       for(int a = 0; a < 20; a++) {
+	if(names[a][0] != ' ') {
+	  for(int b = 0; b < 80; b++) {
+	    cout << names[a][b];
+	  }
+	  cout << ": ";
+	}
+	else {
+	  cout << "   : ";
+	}
+	  
 	for(int b = 0; b < 20; b++) {
 	  cout << adj[a][b] << " ";
 	}
@@ -47,19 +62,20 @@ int main() {
       cout << "A V" << endl;
       //find id
       cout << "what is the name id of the vertex you want to add?" << endl;
-      char newid[80];;
-      cin.getline(input, 80);
+      char newid[80];
+      cin.getline(newid, 80);
       //check that is is unique ID
       //adj + names
       bool pass = true;
       for (int a = 0; a < 20; a++) {
-	if (strcmp(names[a]) == 1) {
+	if (strcmp(newid, names[a]) == 1) {
 	  cout << "cant be a duplicate name" << endl;
 	  pass = false;
 	}
       }
       if (pass == true) {
-	cout << "hi" << endl;
+	//now we add it
+	//for
       }
 
       
