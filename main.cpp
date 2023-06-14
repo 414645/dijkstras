@@ -2,6 +2,10 @@
 #include <cstring>
 
 using namespace std;
+
+void dijkstras(int adj[20][20], char names[20][80], int table[20][3],
+	       char start[80], char end[80], int prev);
+
 int main() {
   cout << "hello world" << endl;
   cout << "simplified to use an ajacency table" << endl;
@@ -244,16 +248,145 @@ int main() {
 
       
     }
-    if (strcmp(input, "Find Shortest Path") == 0) {
-      int thing1;
-      int thing2;
-      cout << "Enter the first Node" << endl;
-      cin >> thing1;
-      cout << "Enter the second Node" << endl;
-      cin >> thing2;
+    if (strcmp(input, "Find Shortest Path") == 0 ||
+	strcmp(input, "FSP") == 0) {
+      char a[80];
+      char b[80];
+      for (int z = 0; z < 80; z++) {
+	a[z] = ' ';
+	b[z] = ' ';
+      }
+      //fnd it
+      cout << "what is the id of the first node" << endl;
+      cin.getline(a, 80);
+      cout << "what is the id of the second node" << endl;
+      cin.getline(b, 80);
+
+      cout << a << ", " << b << endl;
+
+
+      int first = -1;
+      int second =  -1;
+      for (int z = 0; z < 20; z++) {
+	//cout << "a:" << a << endl;;
+	//cout << "n:" << names[z] << endl;
+	//strcmp is not working propery it says fo != fo
+	//if (strcmp(a, names[z]) == 1) {
+        if (a[0] == names[z][0]) {
+	  cout << z << endl;
+	  first = z;
+	}
+      }
+      for (int z = 0; z < 20; z++) {
+	//if (strcmp(b, names[z]) == 1) {
+	//this might be broken becase it is check == 0;
+	if (b[0] == names[z][0]) {
+	  second = z;
+	}
+      }
       
-      cout << thing1 << " to " << thing2 << endl;
+      //check that both nodes exist
+      if(first != -1 && second != -1) {
+	//call traveling
+	int table[20][3];
+	for (int z = 0; z < 20; z++) {
+	  table[z][0] = -1;
+	  table[z][1] = -1;
+	  table[z][2] = -1;
+	}
+	//initalize table [a][1] to 0;
+	//since it is 0 length from istelf
+	table[first][1] = 0;
+
+	dijkstras(adj, names, table, a, b, -1);
+      }
+      else {
+	cout << "check spelling" << endl;
+      }
     }
     
   } 
+}
+
+
+void dijkstras(int adj[20][20], char names[20][80], int table[20][3],
+	       char start[80], char end[80], int prev) {
+  cout << "djkstras" << endl;
+
+  //find me in table
+  //find connections to me in table
+  //save those by order of smallest connection
+  //also start is current
+  /*
+    for (int z = 0; z < 20; z++) {
+    //cout << "a:" << a << endl;;
+    //cout << "n:" << names[z] << endl;
+    //strcmp is not working propery it says fo != fo
+    //if (strcmp(a, names[z]) == 1) {
+      if (a[0] == names[z][0]) {
+        cout << z << endl;
+      first = z;
+      }
+    }
+  //*/
+  
+  //find numical location of node
+  int loc = -1;
+  for (int a = 0; a < 20; a++) {
+    if (strcmp(start, names[a]) == 0) {
+    //if (start[0] == names[a][0]) {
+      loc = a;
+    }
+  }
+  //cout << "loc: " << loc << endl;
+  //cout << adj[loc][0] << endl;
+  //loc is the location of the current nodein table
+  
+  //go look at that collum/row for connectoins
+  for (int a = 0; a < 20; a++) {
+    if (adj[loc][a] != -1) {
+      cout << a << ", " << loc << endl;
+      //save it
+      //preferably smallest first
+      //or just do this as we get it for efficency
+
+      
+      //add the connecton to z collum to table
+      //if it is shorter
+      cout << "replacing " << table[a][0] << endl;
+      if (table[a][1] == -1 || adj[loc][a] + table[loc][1] < table[a][0]) {
+	//save length
+	table[a][0] = adj[loc][a] + table[loc][1];
+	//save previous
+	table[a][1] = a;
+      }
+    }
+  }
+
+  cout << "table: " << endl;
+  for (int a = 0; a < 20; a++) {
+    cout << table[a][0] << ", ";
+    cout << table[a][1] << ", ";
+    cout << table[a][2] << endl;
+  }
+  
+  
+  //follow smallest path
+  for (int a = 0; a < 20; a++) {
+    if (adj[loc][a] != -1) {
+      //instead of adding it this time arounc call this recursivly
+      //need to turn the a back into a sting
+
+      //need to check if it is not arready traveled to
+      if (a != prev) {
+	char next[80];
+	for (int b = 0; b < 80; b++) {
+	  next[b] = names[a][b];
+	}
+      
+	dijkstras(adj, names, table, next, end, loc);
+      }
+    }
+  }
+  
 }
