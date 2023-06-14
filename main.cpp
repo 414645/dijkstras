@@ -4,7 +4,7 @@
 using namespace std;
 
 void dijkstras(int adj[20][20], char names[20][80], int table[20][3],
-	       char start[80], char end[80], int prev);
+	       char start[80], char end[80], int prev[20]);
 
 int main() {
   cout << "hello world" << endl;
@@ -289,16 +289,18 @@ int main() {
       if(first != -1 && second != -1) {
 	//call traveling
 	int table[20][3];
+	int prev[20];
 	for (int z = 0; z < 20; z++) {
 	  table[z][0] = -1;
 	  table[z][1] = -1;
 	  table[z][2] = -1;
+	  prev[z] = -1;
 	}
 	//initalize table [a][1] to 0;
 	//since it is 0 length from istelf
 	table[first][1] = 0;
 
-	dijkstras(adj, names, table, a, b, -1);
+	dijkstras(adj, names, table, a, b, prev);
       }
       else {
 	cout << "check spelling" << endl;
@@ -310,7 +312,7 @@ int main() {
 
 
 void dijkstras(int adj[20][20], char names[20][80], int table[20][3],
-	       char start[80], char end[80], int prev) {
+	       char start[80], char end[80], int prev[20]) {
   cout << "djkstras" << endl;
 
   //find me in table
@@ -373,18 +375,50 @@ void dijkstras(int adj[20][20], char names[20][80], int table[20][3],
   
   //follow smallest path
   for (int a = 0; a < 20; a++) {
+    //cout << "A: " << a << endl;
     if (adj[loc][a] != -1) {
       //instead of adding it this time arounc call this recursivly
       //need to turn the a back into a sting
 
+      //couts since stuff was breaking since i forgot a double =
+      //cout << "adj: " << adj[loc][a] << endl;
+      //cout << loc << ", " << a << endl;
+      //cout << adj[loc][2] << endl;
+
       //need to check if it is not arready traveled to
-      if (a != prev) {
+      bool pass = true;
+      for (int b = 0; b < 20; b++) {
+	cout << prev[b] << ", ";
+	if(prev[b] == a) {
+	  pass = false;
+	}
+      }
+      cout << endl;
+      
+      if (pass == true) {
+	cout << "recusive work now" << endl;
+	//add it to prev
+	bool done = false;
+	int temp[20];
+	for (int b = 0; b < 20; b++) {
+	  temp[b] = prev[b];
+	}
+	for (int b = 0; b < 20; b++) {
+	  if (done == false && temp[b] == -1) {
+	    temp[b] = loc;
+	    done = true;
+	  }
+	}
+	
+	
+	//recurse
 	char next[80];
+	//transfer name
 	for (int b = 0; b < 80; b++) {
 	  next[b] = names[a][b];
 	}
       
-	dijkstras(adj, names, table, next, end, loc);
+	dijkstras(adj, names, table, next, end, temp);
       }
     }
   }
