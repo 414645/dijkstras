@@ -5,9 +5,10 @@ using namespace std;
 int main() {
   cout << "hello world" << endl;
   cout << "simplified to use an ajacency table" << endl;
-  int adj[21][21];
-  for(int a = 0; a < 21; a++) {
-    for(int b = 0; b < 21; b++) {
+  int adj[20][20];
+  char names[20][80];
+  for(int a = 0; a < 20; a++) {
+    for(int b = 0; b < 20; b++) {
       adj[a][b] = -1;
     }
   }
@@ -35,8 +36,8 @@ int main() {
     }
     if (strcmp(input, "PRINT") == 0) {
       cout << "Print" << endl;
-      for(int a = 1; a < 21; a++) {
-	for(int b = 1; b < 21; b++) {
+      for(int a = 0; a < 20; a++) {
+	for(int b = 0; b < 20; b++) {
 	  cout << adj[a][b] << " ";
 	}
 	cout << endl;
@@ -45,10 +46,21 @@ int main() {
     if (strcmp(input, "Add Vertex") == 0 || strcmp(input, "AV") == 0) {
       cout << "A V" << endl;
       //find id
-      cout << "what is numerical id of the vertex you want to add?" << endl;
-      int newid = 0;
-      cin >> newid;
+      cout << "what is the name id of the vertex you want to add?" << endl;
+      char newid[80];;
+      cin.getline(input, 80);
       //check that is is unique ID
+      //adj + names
+      bool pass = true;
+      for (int a = 0; a < 20; a++) {
+	if (strcmp(names[a]) == 1) {
+	  cout << "cant be a duplicate name" << endl;
+	  pass = false;
+	}
+      }
+      if (pass == true) {
+	cout << "hi" << endl;
+      }
 
       
     if (strcmp(input, "Add Edge") == 0 || strcmp(input, "AE") == 0) {
@@ -65,8 +77,7 @@ int main() {
       int c = 0;
       cin >> c;
       //find it
-      //Node* aNode = returnNode(a, nodeRoot);
-      //Node* bNode = returnNode(b, nodeRoot);
+
 
 
       //check that both nodes exist
