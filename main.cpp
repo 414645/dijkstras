@@ -43,8 +43,14 @@ int main() {
       cout << "Print" << endl;
       for(int a = 0; a < 20; a++) {
 	if(names[a][0] != ' ') {
+	  bool proceed = true;
 	  for(int b = 0; b < 80; b++) {
-	    cout << names[a][b];
+	    if (proceed == true) {
+	      cout << names[a][b];
+	    }
+	    if (names[a][b] == '\0') {
+	      proceed = false;
+	    }
 	  }
 	  cout << ": ";
 	}
@@ -75,7 +81,21 @@ int main() {
       }
       if (pass == true) {
 	//now we add it
-	//for
+	bool done = false;
+	for (int a = 0; a < 20; a++) {
+	  if (done == false) {
+	    if (names[a][0] == ' ') {
+	      //add it here
+	      //this method of rewiting a char array is stupid
+	      //but i dont care
+	      //also print ingones 
+	      for (int b = 0; b < 80; b++) {
+		names[a][b] = newid[b];
+	      }
+	      done = true;
+	    }
+	  }
+	}
       }
 
       
