@@ -97,47 +97,101 @@ int main() {
 	  }
 	}
       }
-
-      
+    }
+    
     if (strcmp(input, "Add Edge") == 0 || strcmp(input, "AE") == 0) {
       cout << "A E" << endl;
       //figure out what edge (add two nodes it is connecting)
       //crate cpy of find node that returns node
-      int a = 0;
+      char a[80];
+      char b[80];
+      for (int z = 0; z < 80; z++) {
+	a[z] = ' ';
+	b[z] = ' ';
+      }
       cout << "what is the id of the first node it connects to?" << endl;
-      cin >> a;
-      int b = 0;
+      cin.getline(a, 80);
       cout << "what is the id of the second node it connects to?" << endl;
-      cin >> b;
+      cin.getline(b, 80);
       cout << "what is the length of the edge?" << endl;
       int c = 0;
       cin >> c;
       //find it
-
-
-
+      int first = -1;
+      int second =  -1;
+      for (int z = 0; z < 20; z++) {
+	//cout << "a:" << a << endl;;
+	//cout << "n:" << names[z] << endl;
+	//strcmp is not working propery it says fo != fo
+	//if (strcmp(a, names[z]) == 1) {
+        if (a[0] == names[z][0]) {
+	  cout << z << endl;
+	  first = z;
+	}
+      }
+      for (int z = 0; z < 20; z++) {
+	//if (strcmp(b, names[z]) == 1) {
+	if (b[0] == names[z][0]) {
+	  second = z;
+	}
+      }
+      
       //check that both nodes exist
-            
-      //call add edge
-
+      if(first != -1 && second != -1) {
+	//add edge
+	adj[first][second] = c;
+        adj[second][first] = c;
+      }
+      else {
+	cout << "please check your spelling" << endl;
+      }
     }
     if (strcmp(input, "Remove Vertex") == 0 || strcmp(input, "RV") == 0) {
       cout << "R V" << endl;
       cout << "what is the id of the vertex?" << endl;
-      int num = 0;
-      cin >> num;
       
       //find it
 
       //go call remove on all edges attached to it
+      //since this is a table just scrub collom and row of id
+      //this is basicly add in reverse
 
-	//go cpy search to look for any one sided ones 
-	//lets just call remove on it there
-
-
-	//then delete it
-
+      char newid[80];
+      cin.getline(newid, 80);
+      //check that is is there
+      bool pass = false;
+      for (int a = 0; a < 20; a++) {
+	if (strcmp(newid, names[a]) != 1) {
+	  pass = true;
+	}
       }
+      int temp = -1;
+      if (pass == true) {
+	//now we find it
+	bool done = false;
+	for (int a = 0; a < 20; a++) {
+	  if (done == false) {
+	    //cout << names[a][0] << ":" << newid[0] << endl;
+	    
+	    if (names[a][0] == newid[0]) {
+	      //cout << "a:" << a <<  endl;
+	      //del it here
+	      //also save a
+	      names[a][0] = ' ';
+	      temp = a;
+	    }
+	  }
+	}
+      }
+      //cout << "hi" << endl;
+      if (temp != -1) {
+	for (int a = 0; a < 20; a++) {
+	  adj[a][temp] = -1;
+	  adj[temp][a] = -1;
+	}
+      }
+      
+      
     }
     if (strcmp(input, "Remove Edge") == 0 || strcmp(input, "RE") == 0) {
       cout << "R E" << endl;
