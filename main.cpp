@@ -296,11 +296,44 @@ int main() {
 	  table[z][2] = -1;
 	  prev[z] = -1;
 	}
-	//initalize table [a][1] to 0;
+	//initalize table [a][0] to 0;
 	//since it is 0 length from istelf
-	table[first][1] = 0;
+	table[first][0] = 0;
 
 	dijkstras(adj, names, table, a, b, prev);
+
+	if (false) {
+	  //this prints the adjacency table
+	  //3rd collum should be -1
+	  cout << "table: " << endl;
+	  for (int a = 0; a < 20; a++) {
+	    cout << table[a][0] << ", ";
+	    cout << table[a][1] << ", ";
+	    cout << table[a][2] << endl;
+	  }
+	}
+
+	//now cout answer
+	//find end node locaion in names and go to table
+	//then cout length and back up along path until start
+	//int first + second
+	
+	if (table[second][0] == -1) {
+	  cout << "we could not find a path" << endl;
+	}
+	else {
+	  cout << "we found a path of length " << table[second][0] << endl;
+	  cout << "your path is ";
+	  int temp = second + 1;
+	  while(temp != first) {
+	    cout << names[temp-1] << ", ";
+	    temp = table[temp-1][1];
+	  }
+	  //cout << names[first] << endl;
+	  cout << endl;
+	}
+	
+	
       }
       else {
 	cout << "check spelling" << endl;
@@ -347,7 +380,7 @@ void dijkstras(int adj[20][20], char names[20][80], int table[20][3],
   //go look at that collum/row for connectoins
   for (int a = 0; a < 20; a++) {
     if (adj[loc][a] != -1) {
-      cout << a << ", " << loc << endl;
+      //cout << a << ", " << loc << endl;
       //save it
       //preferably smallest first
       //or just do this as we get it for efficency
@@ -355,22 +388,25 @@ void dijkstras(int adj[20][20], char names[20][80], int table[20][3],
       
       //add the connecton to z collum to table
       //if it is shorter
-      cout << "replacing " << table[a][0] << endl;
+      //cout << "replacing " << table[a][0] << endl;
       if (table[a][1] == -1 || adj[loc][a] + table[loc][1] < table[a][0]) {
 	//save length
-	table[a][0] = adj[loc][a] + table[loc][1];
+	//cout << "cout: " << adj[loc][a] << ", " << table[loc][0] << endl;
+	table[a][0] = adj[loc][a] + table[loc][0];
 	//save previous
 	table[a][1] = a;
       }
     }
   }
 
+  /*
   cout << "table: " << endl;
   for (int a = 0; a < 20; a++) {
     cout << table[a][0] << ", ";
     cout << table[a][1] << ", ";
     cout << table[a][2] << endl;
   }
+  //*/
   
   
   //follow smallest path
@@ -388,15 +424,15 @@ void dijkstras(int adj[20][20], char names[20][80], int table[20][3],
       //need to check if it is not arready traveled to
       bool pass = true;
       for (int b = 0; b < 20; b++) {
-	cout << prev[b] << ", ";
+	//cout << prev[b] << ", ";
 	if(prev[b] == a) {
 	  pass = false;
 	}
       }
-      cout << endl;
+      //cout << endl;
       
       if (pass == true) {
-	cout << "recusive work now" << endl;
+	//cout << "recusive work now" << endl;
 	//add it to prev
 	bool done = false;
 	int temp[20];
